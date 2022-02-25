@@ -1,12 +1,11 @@
-var express = require('express');
+const express = require('express');
 const {client: WebSocketClient} = require("websocket/lib/websocket");
 const {randomBytes} = require("crypto");
 
-var router = express.Router();
+const router = express.Router();
 
-/* GET home page. */
 router.options('/',function(req, res){
-    var req_header = req.headers['access-control-request-headers']
+    const req_header = req.headers['access-control-request-headers'];
     res.status(200).setHeader('access-control-allow-headers',req_header).setHeader('access-control-allow-origin','*') .setHeader('access-control-allow-methods','POST').send('');
     res.send();
 })
@@ -94,6 +93,36 @@ router.post('/',async function (req, res) {
         let format = r['ttsAudioFormat'].toString()
         let ssml = r['ssml'].toString()
         ssml = '<speak' + ssml.split('<speak')[1]
+        if (ssml == null) {
+            throw `Invalid ssml: ${ssml}`;
+        }
+        let result = await convert(ssml, format);
+        res.sendDate = true;
+        res.status(200)
+            .setHeader('Content-Type', 'raw-24khz-16bit-mono-pcm')
+            .send(result);
+    } catch (error) {
+        console.error(error);
+        res.status(503)
+            .json(error);
+    }
+})
+router.post('/ra',async function (req, res) {
+    let token = 'kabasijiniu';
+    if (token) {
+        let authorization = req.headers['authorization'];
+        console.log('verify token...', authorization);
+        if (authorization != `Bearer ${token}`) {
+            console.error('Invalid token');
+            res.status(401).json('Invalid token');
+            return;
+        }
+    }
+    try {
+        let r = req.body
+        let format = req.headers['format'] || 'audio-16khz-32kbitrate-mono-mp3';
+        let ssml = r
+        // ssml = '<speak' + ssml.split('<speak')[1]
         if (ssml == null) {
             throw `Invalid ssml: ${ssml}`;
         }
