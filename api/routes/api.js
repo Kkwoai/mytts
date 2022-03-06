@@ -6,7 +6,11 @@ const router = express.Router();
 
 router.options('/',function(req, res){
     const req_header = req.headers['access-control-request-headers'];
-    res.status(200).setHeader('access-control-allow-headers',req_header).setHeader('access-control-allow-origin','*') .setHeader('access-control-allow-methods','POST').send('');
+    res.status(200).setHeader('access-control-allow-headers',req_header)
+        .setHeader('Access-Control-Allow-Origin','https://speech.microsoft.com')
+        .setHeader('access-control-allow-origin','*')
+        .setHeader('access-control-allow-methods','POST')
+        .send('');
     res.send();
 })
 
