@@ -7,7 +7,7 @@ const router = express.Router();
 router.options('/',function(req, res){
     const req_header = req.headers['access-control-request-headers'];
     res.status(200).setHeader('access-control-allow-headers',req_header)
-        .setHeader('access-control-allow-origin','https://speech.microsoft.com')
+        .setHeader('Access-Control-Allow-Origin','https://speech.microsoft.com')
         // .setHeader('access-control-allow-origin','*')
         .setHeader('access-control-allow-methods','POST')
         .send('');
@@ -103,7 +103,7 @@ router.post('/',async function (req, res) {
         let result = await convert(ssml, format);
         res.sendDate = true;
         res.status(200)
-            .setHeader('Content-Type', 'raw-24khz-16bit-mono-pcm').setHeader('access-control-allow-origin','https://speech.microsoft.com')
+            .setHeader('Content-Type', 'raw-24khz-16bit-mono-pcm').setHeader('Access-Control-Allow-Origin','https://speech.microsoft.com')
             .send(result);
     } catch (error) {
         console.error(error);

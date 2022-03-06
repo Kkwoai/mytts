@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "body-parser": "^1.19.2",
+    "cors": "^2.8.5",
     "express-static": "^1.2.6"
   }
 }
