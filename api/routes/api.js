@@ -99,7 +99,7 @@ router.post('/',async function (req, res) {
         let result = await convert(ssml, format);
         res.sendDate = true;
         res.status(200)
-            .setHeader('Content-Type', 'raw-24khz-16bit-mono-pcm')
+            .setHeader('Content-Type', 'raw-24khz-16bit-mono-pcm').setHeader('Access-Control-Allow-Origin','https://speech.microsoft.com')
             .send(result);
     } catch (error) {
         console.error(error);
