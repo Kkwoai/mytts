@@ -13,7 +13,7 @@ RUN npm install
 # RUN npm ci --only=production
 
 # Bundle app source
-COPY .. .
+COPY docker .
 
 EXPOSE 3000
-CMD [ "node", "server.js" ]
+CMD [ "npm", "start" ]
